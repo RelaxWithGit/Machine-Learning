@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
-
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
 def mystery_data():
     # Read the data from the file
@@ -18,23 +17,32 @@ def mystery_data():
     # Fit the model
     model.fit(X, y)
 
-    # Store the coeffs
+    # Store the coefficients
     coefficients = model.coef_
 
-    # Print the coefficients
-    for i, coef in enumerate(model.coef_):
-        print(f"Coefficient of X{i+1} is {coef}")
+    # Create a figure with subplots
+    fig, axs = plt.subplots(1, 5, figsize=(15, 5))
 
-    # Determine which features are important
-    threshold = 0.1
-    important_features = [f"X{i+1}" for i, coef in enumerate(model.coef_) if abs(coef) > threshold]
-    print("Features that might be needed to explain the response Y:", ", ".join(important_features))
+    # Print the coefficients and plot each variable against Y
+    for i, (coef, column) in enumerate(zip(coefficients, X.columns), 1):
+        print(f"Coefficient of {column} is {coef:.3f}")
 
-    return coefficients 
+        # Plot each variable against Y
+        axs[i-1].scatter(data[column], y)
+        axs[i-1].set_xlabel(column)
+        axs[i-1].set_ylabel('Response Y')
+        axs[i-1].set_title(f'{column} vs Response Y')
+
+        # Add coefficient of determination label
+        axs[i-1].text(0.5, 0.9, f'coeff = {coef:.3f}', horizontalalignment='center', verticalalignment='center', transform=axs[i-1].transAxes)
+
+    plt.tight_layout()
+    plt.show()
+
+    return coefficients
 
 def main():
     mystery_data()
 
 if __name__ == "__main__":
     main()
-
