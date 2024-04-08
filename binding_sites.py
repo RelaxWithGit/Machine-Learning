@@ -53,9 +53,15 @@ def cluster_hamming(filename):
     new_labels = [permutation[label] for label in predicted_labels]
     return accuracy_score(labels, new_labels)
 
+def plot_dendrogram(ax, features, labels, title):
+    """Plot dendrogram on given axes."""
+    dendrogram = hc.dendrogram(hc.linkage(features, method='average'), ax=ax, labels=labels)
+    ax.set_title(title)
+    ax.set_xlabel('Samples')
+    ax.set_ylabel('Distance')
+
 def main():
-    filename = "src/data.seq"
-    
+
     #test "G-A-C-T"
     nucleotide = 'G'
     print("G test returns:",toint(nucleotide))
@@ -69,17 +75,17 @@ def main():
     print("Accuracy score with Euclidean affinity is", cluster_euclidean("src/data.seq"))
     print("Accuracy score with Hamming affinity is", cluster_hamming("src/data.seq"))
 
+    filename = "src/data.seq"
+    
+    features, labels = get_features_and_labels(filename)
+
     fig, axs = plt.subplots(1, 2, figsize=(12, 6))  # Create a figure with 1x2 subplots
 
-    # Cluster using Euclidean affinity
-    euclidean_accuracy = cluster_euclidean(filename)
-    axs[0].set_title('Cluster Euclidean')
-    axs[0].text(0.5, 0.5, f'Accuracy: {euclidean_accuracy:.2f}', ha='center', va='center', fontsize=12)
+    # Plot dendrogram for Euclidean clustering
+    plot_dendrogram(axs[0], pairwise_distances(features, metric='euclidean'), labels, 'Cluster Euclidean')
 
-    # Cluster using Hamming affinity
-    hamming_accuracy = cluster_hamming(filename)
-    axs[1].set_title('Cluster Hamming')
-    axs[1].text(0.5, 0.5, f'Accuracy: {hamming_accuracy:.2f}', ha='center', va='center', fontsize=12)
+    # Plot dendrogram for Hamming clustering
+    plot_dendrogram(axs[1], pairwise_distances(features, metric='hamming'), labels, 'Cluster Hamming')
 
     plt.tight_layout()
     plt.show()
