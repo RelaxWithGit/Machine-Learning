@@ -58,7 +58,7 @@ def plot_dendrogram(ax, features, labels, title):
     dendrogram = hc.dendrogram(hc.linkage(features, method='average'), ax=ax, labels=labels)
     ax.set_title(title)
     ax.set_xlabel('Samples')
-    ax.set_ylabel('Distance')
+    ax.set_ylabel('Dissimilarity')
 
 def main():
 
@@ -82,10 +82,10 @@ def main():
     fig, axs = plt.subplots(1, 2, figsize=(12, 6))  # Create a figure with 1x2 subplots
 
     # Plot dendrogram for Euclidean clustering
-    plot_dendrogram(axs[0], pairwise_distances(features, metric='euclidean'), labels, 'Cluster Euclidean')
+    plot_dendrogram(axs[0], pairwise_distances(features, metric='euclidean'), labels, 'Euclidean Clustering')
 
     # Plot dendrogram for Hamming clustering
-    plot_dendrogram(axs[1], pairwise_distances(features, metric='hamming'), labels, 'Cluster Hamming')
+    plot_dendrogram(axs[1], pairwise_distances(features, metric='hamming'), labels, 'Hamming Clustering')
 
     plt.tight_layout()
     plt.show()
