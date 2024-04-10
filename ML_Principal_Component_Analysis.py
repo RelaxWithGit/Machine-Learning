@@ -1,3 +1,16 @@
+"""
+This script demonstrates various operations related to Principal Component Analysis (PCA) and data visualization using matplotlib. 
+
+Functions:
+- random_data_helper(): Generates random data with a specific covariance structure.
+- arrow(v1, v2): Computes PCA on random data and visualizes the principal axes with arrows.
+- pca_flatten(result_Z, result_X): Performs PCA on given data and returns the flattened components.
+- diabetes_helper_function(): Performs PCA on the diabetes dataset and visualizes it.
+- feature_extraction(): Performs PCA on the diabetes dataset and plots the cumulative explained variance.
+
+The main function orchestrates the execution of these functions and displays the results using subplots.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math
